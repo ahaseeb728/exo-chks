@@ -1,5 +1,17 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import axios from "axios";
+import https from "https";
+const PROXY_CONFIG = {
+    host: "brd.superproxy.io",
+    port: 33335,
+    auth: {
+        username: "brd-customer-hl_b34735e4-zone-datacenter_proxy1",
+        password: "2rupnulv0s5o",
+    },
+};
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+});
 function generateRandomString(length, type = 'letters') {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     const digits = "0123456789";
@@ -111,6 +123,8 @@ export async function execute(interaction) {
             const randomLink = links[Math.floor(Math.random() * links.length)];
             console.log("[PP] Fetching cart from:", randomLink);
             const cartResponse = await axios.get(randomLink, {
+                proxy: PROXY_CONFIG,
+                httpsAgent: httpsAgent,
                 headers: {
                     "User-Agent": UA,
                     "Pragma": "no-cache",
@@ -209,6 +223,8 @@ export async function execute(interaction) {
                 preferred_scheme: "",
                 requestSource: "JS",
             }, {
+                proxy: PROXY_CONFIG,
+                httpsAgent: httpsAgent,
                 headers: {
                     accept: "*/*",
                     "accept-encoding": "gzip, deflate, br",

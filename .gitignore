@@ -6,8 +6,8 @@ node_modules/
 .env.local
 .env.*.local
 
-# Build output (optional - uncomment if you want to build on server)
-# dist/
+# Build output
+dist/
 
 # IDE
 .vscode/

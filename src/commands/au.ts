@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import axios from "axios";
+import https from "https";
 
 const PROXY_CONFIG = {
   host: "brd.superproxy.io",
@@ -9,6 +10,10 @@ const PROXY_CONFIG = {
     password: "2rupnulv0s5o",
   },
 };
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 function generateRandomString(length: number, type: 'letters' | 'digits' = 'letters'): string {
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -131,6 +136,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
       const cartResponse = await axios.get(cartUrl, {
         proxy: PROXY_CONFIG,
+        httpsAgent: httpsAgent,
         headers: {
           "User-Agent": UA,
           "Pragma": "no-cache",
@@ -158,6 +164,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       // Step 2: Get cart details
       const cartDetailsResponse = await axios.get(cartEndpoint, {
         proxy: PROXY_CONFIG,
+        httpsAgent: httpsAgent,
         headers: {
           "User-Agent": UA,
         },
@@ -182,6 +189,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         `&amount=${amount}&cur=${currency}&cart_id=${id}&cart_md5=${md5}&card_type=${cardType}&card=${cc}&cvv2=&exp_mm=${mm}&exp_yyyy=20${yy1}&address_same=true&em_updates=false&email=${email}&name=${N1} ${N2}&fname=${N1}&lname=${N2}&company_name=&phone=13${ran3}${ran5}&address=${ran3} ${N3} street&address2=&city=${N3}&state=${N1}&zip=${ran5}&country=RW&shipping_name=&shipping_fname=&shipping_lname=&shipping_company_name=&shipping_phone=&shipping_address=&shipping_address2=&shipping_city=&shipping_country=US&shipping_state=&shipping_zip=&requiresCardinalCommerce=false&json=true`,
         {
           proxy: PROXY_CONFIG,
+          httpsAgent: httpsAgent,
           headers: {
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "en-US,en;q=0.7",
