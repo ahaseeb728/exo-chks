@@ -28,8 +28,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         value:
           "Authnet 4.70$ Charge - AVS Authnet Gateway.\n**Usage:** `/au card:CC|MM|YYYY`\n**Example:** `/au card:4111111111111111|12|2025`",
         inline: false,
+      },
+      {
+        name: "`/payway`",
+        value:
+          "PayWay Gateway - Custom amount charge with reCAPTCHA v2.\n**Usage:** `/payway card:CC|MM|YYYY|CVV amount:1.00`\n**Example:** `/payway card:4111111111111111|12|2025|123 amount:1.00`",
+        inline: false,
       }
-
 
     )
     .setTimestamp()
