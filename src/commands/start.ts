@@ -40,6 +40,12 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         value:
           "**CVV Charge - Nevut Gateway ($10.00-$12.00) with reCAPTCHA v2.**\n**Usage:** `/nevut card:CC|MM|YYYY|CVV`\n`",
         inline: false,
+      },
+      {
+        name: "`/fiserv`",
+        value:
+          "**CVV/CCN Custom Amount - Fiserv Gateway (CardConnect).**\n**Usage:** `/fiserv card:CC|MM|YYYY|CVV amount:1.00` (CVV optional)\n`",
+        inline: false,
       }
 
     )
