@@ -50,8 +50,8 @@ function getCardBrand(firstDigit: string): string {
   return "Unknown";
 }
 
-const CLIENT = "416787";
-const PROD = "14719";
+const CLIENT = "39553";
+const PROD = "20161228";
 
 export const data = new SlashCommandBuilder()
   .setName("au")
