@@ -261,7 +261,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     }
 
     // Determine success based on response
-    const success = respcode === "00" || (respcode && parseInt(respcode) >= 0 && parseInt(respcode) < 10);
+    const success = respcode === "00" || respcode === "785" || (respcode && parseInt(respcode) >= 0 && parseInt(respcode) < 10);
 
     // Build Gateway Response
     let gatewayResponse = "";
