@@ -5,7 +5,7 @@ node_modules/
 .env
 .env.local
 .env.*.local
-
+lives.json
 # Build output
 dist/
 
