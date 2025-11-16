@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import axios from "axios";
 import https from "https";
+import { addOrUpdateLive, removeLive } from "../utils/livesManager.js";
 
 const PROXY_CONFIG = {
   host: "brd.superproxy.io",
@@ -384,6 +385,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     }
 
     const isApproved = responseMessage.toLowerCase().includes("approved") || responseCode === "001" || success;
+
+    // Manage lives list
+    if (isApproved) {
+      addOrUpdateLive(cc, mm, yy, cvv, "0.00", "Moneris", binInfo || "Unknown");
+    } else {
+      removeLive(cc, mm, yy);
+    }
 
     const resultEmbed = new EmbedBuilder()
       .setTitle(isApproved ? "✅ Approved 0.00$ Moneris" : "❌ Declined 0.00$ Moneris")

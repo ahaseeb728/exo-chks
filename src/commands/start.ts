@@ -46,6 +46,12 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         value:
           "**CVV/CCN Custom Amount - Fiserv Gateway (CardConnect).**\n**Usage:** `/fiserv card:CC|MM|YYYY|CVV amount:1.00` (CVV optional)\n`",
         inline: false,
+      },
+      {
+        name: "`/getlives`",
+        value:
+          "**Get approved cards list.**\n**Usage:** `/getlives [mode:page|all] [page:number]`\nShows 10 cards per page with navigation buttons, or all cards at once.",
+        inline: false,
       }
 
     )

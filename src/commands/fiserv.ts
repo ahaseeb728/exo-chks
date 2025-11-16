@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import axios from "axios";
 import https from "https";
+import { addOrUpdateLive, removeLive } from "../utils/livesManager.js";
 
 const PROXY_CONFIG = {
   host: "brd.superproxy.io",
@@ -262,6 +263,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     // Determine success based on response
     const success = respcode === "00" || respcode === "785" || (respcode && parseInt(respcode) >= 0 && parseInt(respcode) < 10);
+
+    // Manage lives list
+    if (success) {
+      addOrUpdateLive(cc, mm, yy1, cvv, amount, "Fiserv", binInfo || "Unknown");
+    } else {
+      removeLive(cc, mm, yy1);
+    }
 
     // Build Gateway Response
     let gatewayResponse = "";

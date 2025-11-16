@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import axios from "axios";
 import https from "https";
+import { addOrUpdateLive, removeLive } from "../utils/livesManager.js";
 
 const PROXY_CONFIG = {
   host: "brd.superproxy.io",
@@ -290,6 +291,14 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       binInfo = `${issuer} - ${cardTypeBin} ${cardCategory} - ${productType} - ${issuerCountry}`;
     } catch (error: any) {
       console.error("[AU] Checkout.com error:", error.message);
+    }
+
+    // Manage lives list
+    const yy = yy1;
+    if (success) {
+      addOrUpdateLive(cc, mm, yy, undefined, amount || "0.00", "Authnet", binInfo || "Unknown");
+    } else {
+      removeLive(cc, mm, yy);
     }
 
     const resultEmbed = new EmbedBuilder()

@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import axios from "axios";
 import https from "https";
+import { addOrUpdateLive, removeLive } from "../utils/livesManager.js";
 
 const PROXY_CONFIG = {
   host: "brd.superproxy.io",
@@ -291,6 +292,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     }
 
     const isApproved = success;
+
+    // Manage lives list
+    if (isApproved) {
+      addOrUpdateLive(cc, mm, yy1, undefined, amount || "0.00", "PayPal", binInfo || "Unknown");
+    } else {
+      removeLive(cc, mm, yy1);
+    }
 
     const resultEmbed = new EmbedBuilder()
       .setTitle(isApproved ? `✅ Approved ${amount}$ PayPal` : `❌ Declined ${amount}$ PayPal`)
